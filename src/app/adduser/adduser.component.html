@@ -1,0 +1,87 @@
+<div style="text-align: right; margin: 25px;">
+    <button (click)="addBtn()">Add Record
+    </button>
+</div>
+
+<div style="margin: 25px;">
+    <form [formGroup]="userReactiveForm" (ngSubmit)="submitBtn()">
+
+        <div formArrayName="user">
+            <table class="table table-bordered">
+                <thead class="table-active">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Password</th>
+                        <th scope="col">Confirm Password</th>
+                        <th scope="col">Mobile Number</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let users of userData.controls; let rowIndex=index" [formGroupName]="rowIndex">
+                        <td>
+                            <input formControlName="name" style="width: 200px;" />
+                            <div class="divError"
+                                *ngIf="!userData.controls[rowIndex].get('name')?.valid && (userData.controls[rowIndex].get('name')?.touched || userData.controls[rowIndex].get('name')?.dirty)">
+                                <span *ngIf="userData.controls[rowIndex].get('name')?.errors?.required">Name is
+                                    required</span>
+                            </div>
+                        </td>
+                        <td>
+                            <input formControlName="email" style="width: 200px;" />
+                            <div class="divError"
+                                *ngIf="!userData.controls[rowIndex].get('email')?.valid && (userData.controls[rowIndex].get('email')?.touched || userData.controls[rowIndex].get('email')?.dirty)">
+                                <span *ngIf="userData.controls[rowIndex].get('email')?.errors?.required">Email is
+                                    required</span>
+                                <span *ngIf="userData.controls[rowIndex].get('email')?.errors?.pattern">Please Enter
+                                    Valid
+                                    Email</span>
+                            </div>
+                        </td>
+                        <td>
+                            <input type="password" formControlName="password" style="width: 200px;" />
+                            <div class="divError"
+                                *ngIf="!userData.controls[rowIndex].get('password')?.valid && (userData.controls[rowIndex].get('password')?.touched || userData.controls[rowIndex].get('password')?.dirty)">
+                                <span *ngIf="userData.controls[rowIndex].get('password')?.errors?.required">Password is
+                                    required</span>
+                            </div>
+                        </td>
+                        <td>
+                            <input formControlName="confirmPassword" style="width: 200px;" />
+                            <div class="divError"
+                                *ngIf="!userData.controls[rowIndex].get('confirmPassword')?.valid && (userData.controls[rowIndex].get('confirmPassword')?.touched || userData.controls[rowIndex].get('confirmPassword')?.dirty)">
+
+                                <span *ngIf="userData.controls[rowIndex].errors?.mismatch">confirmPassword
+                                    not match wth password</span>
+                            </div>
+                        </td>
+                        <td>
+                            <input type="number" formControlName="mobileNo" style="width: 200px;" />
+                            <div class="divError"
+                                *ngIf="!userData.controls[rowIndex].get('mobileNo')?.valid && (userData.controls[rowIndex].get('mobileNo')?.touched || userData.controls[rowIndex].get('mobileNo')?.dirty)">
+                                <span *ngIf="userData.controls[rowIndex].get('mobileNo')?.errors?.required">Mobile
+                                    Number
+                                    is required</span>
+                                <span *ngIf="userData.controls[rowIndex].get('mobileNo')?.errors?.min">minimum 10
+                                    digit</span>
+                                <span *ngIf="userData.controls[rowIndex].get('mobileNo')?.errors?.max">maximum 15
+                                    digit</span>
+                            </div>
+                        </td>
+                        <td>
+                            <button type="button" (click)="removeBtnClick(rowIndex)">Remove</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <div style="text-align: center; margin: 25px;">
+            <button type="submit" [disabled]="!userReactiveForm.valid">Submit</button>
+
+        </div>
+
+    </form>
+</div>

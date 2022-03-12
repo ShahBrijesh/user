@@ -1,0 +1,92 @@
+<div style="margin: 25px;">
+
+    <div>
+        <button (click)="backBtnClick()">Back</button>
+    </div>
+
+    <form [formGroup]="userReactiveForm" (ngSubmit)="saveBtnClick()">
+        <table class="table table-bordered">
+            <thead class="table-active">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Password</th>
+                    <th scope="col">Confirm Password</th>
+                    <th scope="col">Mobile Number</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of arrUser; let i=index">
+                    <ng-container *ngIf="editIndex == i; else elsepart">
+                        <td><input [value]="user['name']" formControlName="name" style="width: 200px;">
+                            <div class="divError"
+                                *ngIf="!userReactiveForm.get('name')?.valid && (userReactiveForm.get('name')?.touched || userReactiveForm.get('name')?.dirty)">
+                                <span *ngIf="userReactiveForm.get('name')?.errors?.required">Name is
+                                    required</span>
+                            </div>
+                        </td>
+                        <td><input [value]="user['email']" formControlName="email" style="width: 200px;">
+                            <div class="divError"
+                                *ngIf="!userReactiveForm.get('email')?.valid && (userReactiveForm.get('email')?.touched || userReactiveForm.get('email')?.dirty)">
+                                <span *ngIf="userReactiveForm.get('email')?.errors?.required">Email is
+                                    required</span>
+                                <span *ngIf="userReactiveForm.get('email')?.errors?.pattern">Please Enter
+                                    Valid
+                                    Email</span>
+                            </div>
+                        </td>
+                        <td><input [value]="user['password']" formControlName="password" style="width: 200px;">
+                            <div class="divError"
+                                *ngIf="!userReactiveForm.get('password')?.valid && (userReactiveForm.get('password')?.touched || userReactiveForm.get('password')?.dirty)">
+                                <span *ngIf="userReactiveForm.get('password')?.errors?.required">Password is
+                                    required</span>
+                            </div>
+                        </td>
+                        <td><input [value]="user['confirmPassword']" formControlName="confirmPassword"
+                                style="width: 200px;">
+                            <div class="divError"
+                                *ngIf="!userReactiveForm.get('confirmPassword')?.valid && (userReactiveForm.get('confirmPassword')?.touched || userReactiveForm.get('confirmPassword')?.dirty)">
+
+                                <span *ngIf="userReactiveForm.errors?.mismatch">confirmPassword
+                                    not match wth password</span>
+                            </div>
+                        </td>
+                        <td><input [value]="user['mobileNo']" formControlName="mobileNo" style="width: 200px;">
+                            <div class="divError"
+                                *ngIf="!userReactiveForm.get('mobileNo')?.valid && (userReactiveForm.get('mobileNo')?.touched || userReactiveForm.get('mobileNo')?.dirty)">
+                                <span *ngIf="userReactiveForm.get('mobileNo')?.errors?.required">Mobile
+                                    Number
+                                    is required</span>
+                                <span *ngIf="userReactiveForm.get('mobileNo')?.errors?.min">minimum 10
+                                    digit</span>
+                                <span *ngIf="userReactiveForm.get('mobileNo')?.errors?.max">maximum 15
+                                    digit</span>
+                            </div>
+                        </td>
+                        <td>
+                            <button type="submit" [disabled]="!userReactiveForm.valid">Save</button>
+                        </td>
+
+                    </ng-container>
+                    <ng-template #elsepart>
+                        <td>{{user['name']}}</td>
+                        <td>{{user['email']}}</td>
+                        <td>{{user['password']}}</td>
+                        <td>{{user['confirmPassword']}}</td>
+                        <td>{{user['mobileNo']}}</td>
+                        <td>
+                            <button type="button" (click)="editBtnClick(i)">Edit</button>
+                        </td>
+                    </ng-template>
+
+
+                </tr>
+            </tbody>
+        </table>
+
+    </form>
+
+
+
+</div>
